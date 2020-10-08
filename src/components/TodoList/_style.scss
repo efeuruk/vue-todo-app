@@ -1,0 +1,30 @@
+.todo-list {
+	&__input {
+		width: 100%;
+		padding: 10px 18px;
+		font-size: 18px;
+		margin-bottom: 16px;
+
+		&:focus {
+			outline-color: $green;
+		}
+	}
+	&__item {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 12px;
+	}
+	&__remove-item {
+		background: none;
+		border: none;
+		cursor: pointer;
+		transition: 0.2s color;
+		&:hover {
+			color: $green;
+		}
+		i {
+			font-size: 20px;
+		}
+	}
+}

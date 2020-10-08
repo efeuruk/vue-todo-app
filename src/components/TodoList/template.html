@@ -1,0 +1,18 @@
+<div class="todo-list">
+	<input
+		type="text"
+		class="todo-list__input"
+		placeholder="Add new task"
+		:value="newTodo"
+		@input="updateNewTodo"
+		@keyup.enter="addTodo"
+	/>
+	<div v-for="(todo, index) in todos" :key="todo.id" class="todo-list__item">
+		<div>
+			{{todo.title}}
+		</div>
+		<button class="todo-list__remove-item" @click="removeTodo(index)">
+			<i class="fas fa-times"></i>
+		</button>
+	</div>
+</div>
