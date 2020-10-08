@@ -1,19 +1,28 @@
 .todo-list {
 	&__input {
-		width: 100%;
 		padding: 10px 18px;
 		font-size: 18px;
 		margin-bottom: 16px;
-
-		&:focus {
-			outline-color: $green;
-		}
 	}
 	&__item {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		margin-bottom: 12px;
+		&-left {
+			display: flex;
+			align-items: center;
+		}
+		&-label {
+			padding: 10px;
+			margin-left: 10px;
+		}
+		&-edit {
+			margin-left: 12px;
+			padding: 10px;
+			border: 1px solid #ccc;
+			font-size: 22px;
+		}
 	}
 	&__remove-item {
 		background: none;

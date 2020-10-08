@@ -4,37 +4,50 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component
+type Todo = {
+	id: number;
+	title: string;
+	isDone: boolean;
+	editing: boolean;
+};
+
+@Component({
+	directives: {
+		focus: {
+			inserted: function(el) {
+				el.focus();
+			},
+		},
+	},
+})
 export default class TodoList extends Vue {
 	idForTodo: number = 3;
 	newTodo: string = '';
-	todos: Object[] = [
+	todos: Todo[] = [
 		{
-			id: '1',
+			id: 1,
 			title: 'Finish Vue.JS',
 			isDone: false,
+			editing: false,
 		},
 		{
-			id: '2',
+			id: 2,
 			title: 'Quit Video Games',
 			isDone: false,
+			editing: false,
 		},
 	];
 
-	mounted() {
-		this.newTodo = '';
-	}
-
-	updateNewTodo(e: any) {
-		this.newTodo = e.target.value;
-	}
+	// mounted() {}
 
 	addTodo() {
 		if (this.newTodo.length === 0) return;
+
 		this.todos.push({
 			id: this.idForTodo,
 			title: this.newTodo,
 			isDone: false,
+			editing: false,
 		});
 
 		this.newTodo = '';
@@ -43,6 +56,10 @@ export default class TodoList extends Vue {
 
 	removeTodo(index: number) {
 		this.todos.splice(index, 1);
+	}
+
+	editTodo(todo: Todo, isEdit: boolean) {
+		todo.editing = isEdit;
 	}
 }
 </script>

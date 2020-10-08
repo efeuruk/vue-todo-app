@@ -3,13 +3,28 @@
 		type="text"
 		class="todo-list__input"
 		placeholder="Add new task"
-		:value="newTodo"
-		@input="updateNewTodo"
+		v-model="newTodo"
 		@keyup.enter="addTodo"
 	/>
 	<div v-for="(todo, index) in todos" :key="todo.id" class="todo-list__item">
-		<div>
-			{{todo.title}}
+		<div class="todo-list__item-left">
+			<label
+				v-if="!todo.editing"
+				@dblclick="editTodo(todo)"
+				class="todo-list__item-label"
+			>
+				{{todo.title}}
+			</label>
+			<input
+				v-else
+				type="text"
+				class="todo-list__item-edit"
+				v-model="todo.title"
+				@blur="editTodo(todo, false)"
+				@keyup.enter="editTodo(todo, false)"
+				@keyup.escape="cancelEdit(todo)"
+				v-focus
+			/>
 		</div>
 		<button class="todo-list__remove-item" @click="removeTodo(index)">
 			<i class="fas fa-times"></i>
