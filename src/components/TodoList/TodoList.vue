@@ -23,6 +23,7 @@ type Todo = {
 export default class TodoList extends Vue {
 	idForTodo: number = 3;
 	newTodo: string = '';
+	beforeEditCache: string = '';
 	todos: Todo[] = [
 		{
 			id: 1,
@@ -58,8 +59,17 @@ export default class TodoList extends Vue {
 		this.todos.splice(index, 1);
 	}
 
-	editTodo(todo: Todo, isEdit: boolean) {
+	editTodo(todo: Todo, isEdit: boolean = true) {
+		this.beforeEditCache = todo.title;
 		todo.editing = isEdit;
+		if (!isEdit && todo.title.length !== 0) {
+			todo.title = this.beforeEditCache;
+		}
+	}
+
+	cancelEdit(todo: Todo) {
+		todo.title = this.beforeEditCache;
+		todo.editing = false;
 	}
 }
 </script>

@@ -8,13 +8,14 @@
 	/>
 	<div v-for="(todo, index) in todos" :key="todo.id" class="todo-list__item">
 		<div class="todo-list__item-left">
+			<input type="checkbox" v-model="todo.isDone" />
 			<label
 				v-if="!todo.editing"
 				@dblclick="editTodo(todo)"
 				class="todo-list__item-label"
+				:class="{ done : todo.isDone }"
+				>{{todo.title}}</label
 			>
-				{{todo.title}}
-			</label>
 			<input
 				v-else
 				type="text"

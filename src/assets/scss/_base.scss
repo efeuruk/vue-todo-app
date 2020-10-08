@@ -19,3 +19,8 @@ input {
 		outline-color: $green;
 	}
 }
+
+input[type='checkbox'] {
+	margin: 0;
+	width: auto;
+}

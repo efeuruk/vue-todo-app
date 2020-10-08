@@ -12,10 +12,11 @@
 		&-left {
 			display: flex;
 			align-items: center;
+			justify-content: space-between;
 		}
 		&-label {
+			display: inline-block;
 			padding: 10px;
-			margin-left: 10px;
 		}
 		&-edit {
 			margin-left: 12px;
@@ -35,5 +36,9 @@
 		i {
 			font-size: 20px;
 		}
+	}
+	.done {
+		text-decoration: line-through;
+		color: $primary;
 	}
 }
