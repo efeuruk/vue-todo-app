@@ -3,10 +3,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import gql from 'graphql-tag';
 
 type Todo = {
-	id: number;
-	title: string;
+	description: string;
 	isDone: boolean;
 	editing: boolean;
 };
@@ -19,40 +19,51 @@ type Todo = {
 			},
 		},
 	},
+	apollo: {
+		todos: gql`
+			query {
+				todos(order_by: { description: asc }) {
+					description
+					id
+					isDone
+				}
+			}
+		`,
+		$loadingKey: 'loading',
+	},
 })
 export default class TodoList extends Vue {
-	idForTodo: number = 3;
 	newTodo: string = '';
 	beforeEditCache: string = '';
-	todos: Todo[] = [
-		{
-			id: 1,
-			title: 'Finish Vue.JS',
-			isDone: false,
-			editing: false,
-		},
-		{
-			id: 2,
-			title: 'Quit Video Games',
-			isDone: false,
-			editing: false,
-		},
-	];
+	todos: Todo[] = [];
 
-	// mounted() {}
+	mounted() {
+		console.log(this.$apollo);
+	}
 
-	addTodo() {
+	async addTodo() {
 		if (this.newTodo.length === 0) return;
 
+		await this.$apollo.mutate({
+			mutation: gql`
+				mutation($description: String!) {
+					insert_todos_one(object: { description: $description }) {
+						description
+					}
+				}
+			`,
+			variables: {
+				description: this.newTodo,
+			},
+		});
+
 		this.todos.push({
-			id: this.idForTodo,
-			title: this.newTodo,
+			description: this.newTodo,
 			isDone: false,
 			editing: false,
 		});
 
 		this.newTodo = '';
-		this.idForTodo++;
 	}
 
 	removeTodo(index: number) {
@@ -60,15 +71,15 @@ export default class TodoList extends Vue {
 	}
 
 	editTodo(todo: Todo, isEdit: boolean = true) {
-		this.beforeEditCache = todo.title;
+		this.beforeEditCache = todo.description;
 		todo.editing = isEdit;
-		if (!isEdit && todo.title.length !== 0) {
-			todo.title = this.beforeEditCache;
+		if (!isEdit && todo.description.length !== 0) {
+			todo.description = this.beforeEditCache;
 		}
 	}
 
 	cancelEdit(todo: Todo) {
-		todo.title = this.beforeEditCache;
+		todo.description = this.beforeEditCache;
 		todo.editing = false;
 	}
 }

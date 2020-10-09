@@ -14,13 +14,13 @@
 				@dblclick="editTodo(todo)"
 				class="todo-list__item-label"
 				:class="{ done : todo.isDone }"
-				>{{todo.title}}</label
+				>{{todo.description}}</label
 			>
 			<input
 				v-else
 				type="text"
 				class="todo-list__item-edit"
-				v-model="todo.title"
+				v-model="todo.description"
 				@blur="editTodo(todo, false)"
 				@keyup.enter="editTodo(todo, false)"
 				@keyup.escape="cancelEdit(todo)"
