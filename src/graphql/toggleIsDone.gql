@@ -1,0 +1,6 @@
+mutation toggleIsDone($id: Int!, $isDone: Boolean!) {
+	update_todos_by_pk(pk_columns: { id: $id }, _set: { isDone: $isDone }) {
+		id
+		isDone
+	}
+}

@@ -1,0 +1,5 @@
+mutation insertTodo($description: String!) {
+	insert_todos_one(object: { description: $description }) {
+		description
+	}
+}

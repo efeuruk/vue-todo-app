@@ -1,0 +1,7 @@
+query getTodos {
+	todos(order_by: { description: asc }) {
+		description
+		id
+		isDone
+	}
+}

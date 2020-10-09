@@ -6,11 +6,15 @@
 		v-model="newTodo"
 		@keyup.enter="addTodo"
 	/>
-	<div v-for="(todo, index) in todos" :key="todo.id" class="todo-list__item">
+	<div v-for="(todo) in todos" :key="todo.id" class="todo-list__item">
 		<div class="todo-list__item-left">
-			<input type="checkbox" v-model="todo.isDone" />
+			<input
+				type="checkbox"
+				v-model="todo.isDone"
+				v-on:click="toggleIsDone(todo)"
+			/>
 			<label
-				v-if="!todo.editing"
+				v-if="!todo.isEditing"
 				@dblclick="editTodo(todo)"
 				class="todo-list__item-label"
 				:class="{ done : todo.isDone }"
@@ -27,7 +31,7 @@
 				v-focus
 			/>
 		</div>
-		<button class="todo-list__remove-item" @click="removeTodo(index)">
+		<button class="todo-list__remove-item" @click="removeTodo(todo.id)">
 			<i class="fas fa-times"></i>
 		</button>
 	</div>

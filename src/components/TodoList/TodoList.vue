@@ -3,84 +3,89 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import gql from 'graphql-tag';
+import getTodos from '../../graphql/getTodos.gql';
+import addTodo from '../../graphql/addTodo.gql';
+import deleteTodo from '../../graphql/deleteTodo.gql';
+import updateTodo from '../../graphql/updateTodo.gql';
+import toggleIsDone from '../../graphql/toggleIsDone.gql';
 
 type Todo = {
+	id: number;
 	description: string;
 	isDone: boolean;
-	editing: boolean;
 };
 
 @Component({
 	directives: {
 		focus: {
-			inserted: function(el) {
+			inserted(el) {
 				el.focus();
 			},
 		},
 	},
 	apollo: {
-		todos: gql`
-			query {
-				todos(order_by: { description: asc }) {
-					description
-					id
-					isDone
-				}
-			}
-		`,
-		$loadingKey: 'loading',
+		todos: getTodos,
 	},
 })
 export default class TodoList extends Vue {
-	newTodo: string = '';
-	beforeEditCache: string = '';
-	todos: Todo[] = [];
+	public newTodo: string = '';
+	public beforeEditCache: string = '';
 
-	mounted() {
-		console.log(this.$apollo);
+	public mounted() {
+		// console.log(this.$apollo);
 	}
 
-	async addTodo() {
-		if (this.newTodo.length === 0) return;
+	public async addTodo() {
+		if (this.newTodo.length === 0) {
+			return;
+		}
 
 		await this.$apollo.mutate({
-			mutation: gql`
-				mutation($description: String!) {
-					insert_todos_one(object: { description: $description }) {
-						description
-					}
-				}
-			`,
+			mutation: addTodo,
 			variables: {
 				description: this.newTodo,
 			},
 		});
 
-		this.todos.push({
-			description: this.newTodo,
-			isDone: false,
-			editing: false,
-		});
-
+		this.$apollo.queries.todos.refetch();
 		this.newTodo = '';
 	}
 
-	removeTodo(index: number) {
-		this.todos.splice(index, 1);
+	public async removeTodo(id: number) {
+		await this.$apollo.mutate({
+			mutation: deleteTodo,
+			variables: {
+				id,
+			},
+		});
+
+		this.$apollo.queries.todos.refetch();
 	}
 
-	editTodo(todo: Todo, isEdit: boolean = true) {
-		this.beforeEditCache = todo.description;
-		todo.editing = isEdit;
-		if (!isEdit && todo.description.length !== 0) {
-			todo.description = this.beforeEditCache;
-		}
-	}
+	// public editTodo(todo: Todo, isEdit: boolean = true) {
+	// 	console.log(todo);
+	// 	// this.beforeEditCache = todo.description;
+	// 	// todo.editing = isEdit;
+	// 	// if (!isEdit && todo.description.length !== 0) {
+	// 	// 	todo.description = this.beforeEditCache;
+	// 	// }
+	// }
 
-	cancelEdit(todo: Todo) {
-		todo.description = this.beforeEditCache;
-		todo.editing = false;
+	// public cancelEdit(todo: Todo) {
+	// 	todo.description = this.beforeEditCache;
+	// 	todo.editing = false;
+	// }
+
+	public async toggleIsDone(todo: Todo) {
+		await this.$apollo.mutate({
+			mutation: toggleIsDone,
+			variables: {
+				id: todo.id,
+				isDone: !todo.isDone,
+			},
+		});
+
+		this.$apollo.queries.todos.refetch();
 	}
 }
 </script>

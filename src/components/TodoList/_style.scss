@@ -9,20 +9,24 @@
 		align-items: center;
 		justify-content: space-between;
 		margin-bottom: 12px;
+		margin: 0 auto;
+		animation-name: fade-in;
+		animation-duration: 0.5s;
 		&-left {
 			display: flex;
 			align-items: center;
-			justify-content: space-between;
 		}
 		&-label {
 			display: inline-block;
 			padding: 10px;
+			margin-left: 10px;
 		}
 		&-edit {
 			margin-left: 12px;
 			padding: 10px;
 			border: 1px solid #ccc;
 			font-size: 22px;
+			align-self: flex-end;
 		}
 	}
 	&__remove-item {

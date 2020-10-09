@@ -24,3 +24,12 @@ input[type='checkbox'] {
 	margin: 0;
 	width: auto;
 }
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
