@@ -2,44 +2,56 @@
 	<input
 		type="text"
 		class="todo-app__input"
-		placeholder="Add a new task"
+		placeholder="What should you done?"
 		v-model="newTodo"
 		@keyup.enter="addTodo"
 	/>
-	<transition-group tag="ul" class="todo-list" name="fade">
-		<li v-for="todo in todos" :key="todo.id" class="todo-list__item">
-			<div class="todo-list__item-left">
-				<input
-					type="checkbox"
-					v-model="todo.isDone"
-					v-on:click="toggleIsDone(todo)"
-				/>
-				<label
-					v-if="todo !== editedTodo"
-					@dblclick="editTodo(todo)"
-					class="todo-list__item-label"
-					:class="{ done : todo.isDone }"
-					>{{todo.description}}</label
+	<transition-group tag="div" class="todo-list" name="fade">
+		<p v-if="todos && todos.length === 0" :key="0">
+			Nothing needs to be done :)
+		</p>
+		<ul v-else :key="1">
+			<li v-for="todo in todos" :key="todo.id" class="todo-list__item">
+				<div class="todo-list__item-left">
+					<input
+						type="checkbox"
+						v-model="todo.isDone"
+						v-on:click="toggleIsDone(todo)"
+					/>
+					<label
+						v-if="todo !== editedTodo"
+						@dblclick="editTodo(todo)"
+						class="todo-list__item-label"
+						:class="{ done : todo.isDone }"
+						>{{todo.description}}</label
+					>
+					<input
+						v-else
+						type="text"
+						class="todo-list__item-edit"
+						v-model="todo.description"
+						@blur="doneEdit(todo)"
+						@keyup.enter="doneEdit(todo)"
+						@keyup.escape="cancelEdit(todo)"
+						v-focus
+					/>
+				</div>
+				<button
+					class="todo-list__remove-item"
+					@click="removeTodo(todo.id)"
 				>
-				<input
-					v-else
-					type="text"
-					class="todo-list__item-edit"
-					v-model="todo.description"
-					@blur="doneEdit(todo)"
-					@keyup.enter="doneEdit(todo)"
-					@keyup.escape="cancelEdit(todo)"
-					v-focus
-				/>
-			</div>
-			<button class="todo-list__remove-item" @click="removeTodo(todo.id)">
-				<i class="fas fa-times"></i>
-			</button>
-		</li>
+					<i class="fas fa-times"></i>
+				</button>
+			</li>
+		</ul>
+		<div
+			v-if="todos && todos.length !== 0"
+			class="todo-app__filter-buttons"
+			:key="3"
+		>
+			<button>All</button>
+			<button>Active</button>
+			<button>Completed</button>
+		</div>
 	</transition-group>
-	<div class="todo-app__filter-buttons">
-		<button>All</button>
-		<button>Active</button>
-		<button>Completed</button>
-	</div>
 </div>
