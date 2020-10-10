@@ -34,7 +34,6 @@ const filters: any = {
 	apollo: {
 		todos: getTodos,
 	},
-	watch: {},
 })
 export default class TodoList extends Vue {
 	public newTodo: string = '';
