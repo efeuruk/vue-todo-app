@@ -19,8 +19,7 @@ const filters: any = {
 	all: (todos: Todo[]) => todos,
 	active: (todos: Todo[]) =>
 		todos.filter((todo: Todo) => todo && !todo.isDone),
-	completed: (todos: Todo[]) =>
-		todos.filter((todo: Todo) => todo && todo.isDone),
+	done: (todos: Todo[]) => todos.filter((todo: Todo) => todo && todo.isDone),
 };
 
 @Component({
