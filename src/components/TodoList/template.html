@@ -2,37 +2,39 @@
 	<input
 		type="text"
 		class="todo-list__input"
-		placeholder="Add new task"
+		placeholder="Add a new task"
 		v-model="newTodo"
 		@keyup.enter="addTodo"
 	/>
-	<div v-for="(todo) in todos" :key="todo.id" class="todo-list__item">
-		<div class="todo-list__item-left">
-			<input
-				type="checkbox"
-				v-model="todo.isDone"
-				v-on:click="toggleIsDone(todo)"
-			/>
-			<label
-				v-if="!todo.isEditing"
-				@dblclick="editTodo(todo)"
-				class="todo-list__item-label"
-				:class="{ done : todo.isDone }"
-				>{{todo.description}}</label
-			>
-			<input
-				v-else
-				type="text"
-				class="todo-list__item-edit"
-				v-model="todo.description"
-				@blur="editTodo(todo, false)"
-				@keyup.enter="editTodo(todo, false)"
-				@keyup.escape="cancelEdit(todo)"
-				v-focus
-			/>
-		</div>
-		<button class="todo-list__remove-item" @click="removeTodo(todo.id)">
-			<i class="fas fa-times"></i>
-		</button>
-	</div>
+	<ul>
+		<li v-for="todo in todos" :key="todo.id" class="todo-list__item">
+			<div class="todo-list__item-left">
+				<input
+					type="checkbox"
+					v-model="todo.isDone"
+					v-on:click="toggleIsDone(todo)"
+				/>
+				<label
+					v-if="todo !== editedTodo"
+					@dblclick="editTodo(todo)"
+					class="todo-list__item-label"
+					:class="{ done : todo.isDone }"
+					>{{todo.description}}</label
+				>
+				<input
+					v-else
+					type="text"
+					class="todo-list__item-edit"
+					v-model="todo.description"
+					@blur="doneEdit(todo)"
+					@keyup.enter="doneEdit(todo)"
+					@keyup.escape="cancelEdit(todo)"
+					v-focus
+				/>
+			</div>
+			<button class="todo-list__remove-item" @click="removeTodo(todo.id)">
+				<i class="fas fa-times"></i>
+			</button>
+		</li>
+	</ul>
 </div>

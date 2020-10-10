@@ -1,8 +1,9 @@
+// TODO: Sadece isDoneları/isDone olmayanları göster
 <style lang="scss" src="./_style.scss"></style>
 <template src="./template.html"></template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import getTodos from '../../graphql/getTodos.gql';
 import addTodo from '../../graphql/addTodo.gql';
 import deleteTodo from '../../graphql/deleteTodo.gql';
@@ -13,7 +14,7 @@ type Todo = {
 	id: number;
 	description: string;
 	isDone: boolean;
-};
+} | null;
 
 @Component({
 	directives: {
@@ -30,10 +31,7 @@ type Todo = {
 export default class TodoList extends Vue {
 	public newTodo: string = '';
 	public beforeEditCache: string = '';
-
-	public mounted() {
-		// console.log(this.$apollo);
-	}
+	public editedTodo: Todo = null;
 
 	public async addTodo() {
 		if (this.newTodo.length === 0) {
@@ -62,30 +60,38 @@ export default class TodoList extends Vue {
 		this.$apollo.queries.todos.refetch();
 	}
 
-	// public editTodo(todo: Todo, isEdit: boolean = true) {
-	// 	console.log(todo);
-	// 	// this.beforeEditCache = todo.description;
-	// 	// todo.editing = isEdit;
-	// 	// if (!isEdit && todo.description.length !== 0) {
-	// 	// 	todo.description = this.beforeEditCache;
-	// 	// }
-	// }
+	public editTodo(todo: Todo) {
+		todo && (this.beforeEditCache = todo.description);
+		this.editedTodo = todo;
+	}
 
-	// public cancelEdit(todo: Todo) {
-	// 	todo.description = this.beforeEditCache;
-	// 	todo.editing = false;
-	// }
+	public async doneEdit(todo: Todo) {
+		if (todo?.description.length !== 0 && todo !== null) {
+			this.editedTodo = null;
+			await this.$apollo.mutate({
+				mutation: updateTodo,
+				variables: {
+					id: todo.id,
+					description: todo.description,
+				},
+			});
+		}
+	}
+
+	public cancelEdit(todo: Todo) {
+		this.editedTodo = null;
+		todo && (todo.description = this.beforeEditCache);
+	}
 
 	public async toggleIsDone(todo: Todo) {
-		await this.$apollo.mutate({
-			mutation: toggleIsDone,
-			variables: {
-				id: todo.id,
-				isDone: !todo.isDone,
-			},
-		});
-
-		this.$apollo.queries.todos.refetch();
+		todo &&
+			(await this.$apollo.mutate({
+				mutation: toggleIsDone,
+				variables: {
+					id: todo.id,
+					isDone: !todo.isDone,
+				},
+			}));
 	}
 }
 </script>

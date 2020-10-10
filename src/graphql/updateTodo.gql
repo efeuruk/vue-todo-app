@@ -1,0 +1,9 @@
+mutation updateTodo($id: Int!, $description: String!) {
+	update_todos_by_pk(
+		pk_columns: { id: $id }
+		_set: { description: $description }
+	) {
+		id
+		description
+	}
+}
