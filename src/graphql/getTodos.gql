@@ -1,5 +1,5 @@
 query getTodos {
-	todos(order_by: { description: asc }) {
+	todos(order_by: { id: asc }) {
 		description
 		id
 		isDone

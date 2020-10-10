@@ -2,7 +2,7 @@
 	<input
 		type="text"
 		class="todo-app__input"
-		placeholder="What should you done?"
+		placeholder="What do you need to be done?"
 		v-model="newTodo"
 		@keyup.enter="addTodo"
 	/>
@@ -11,7 +11,11 @@
 			Nothing needs to be done :)
 		</p>
 		<ul v-else :key="1">
-			<li v-for="todo in todos" :key="todo.id" class="todo-list__item">
+			<li
+				v-for="todo in filteredTodos()"
+				:key="todo.id"
+				class="todo-list__item"
+			>
 				<div class="todo-list__item-left">
 					<input
 						type="checkbox"
@@ -49,9 +53,12 @@
 			class="todo-app__filter-buttons"
 			:key="3"
 		>
-			<button>All</button>
-			<button>Active</button>
-			<button>Completed</button>
+			<a href="#/all">All</a>
+			<a href="#/active">Active</a>
+			<a href="#/completed">Completed</a>
+			<div class="todo-app__remanings">
+				<span>Remaining todos {{remainingTodos()}}</span>
+			</div>
 		</div>
 	</transition-group>
 </div>

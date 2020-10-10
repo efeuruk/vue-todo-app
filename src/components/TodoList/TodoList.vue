@@ -1,4 +1,3 @@
-// TODO: Sadece isDoneları/isDone olmayanları göster
 <style lang="scss" src="./_style.scss"></style>
 <template src="./template.html"></template>
 
@@ -16,6 +15,14 @@ type Todo = {
 	isDone: boolean;
 } | null;
 
+const filters: any = {
+	all: (todos: Todo[]) => todos,
+	active: (todos: Todo[]) =>
+		todos.filter((todo: Todo) => todo && !todo.isDone),
+	completed: (todos: Todo[]) =>
+		todos.filter((todo: Todo) => todo && todo.isDone),
+};
+
 @Component({
 	directives: {
 		focus: {
@@ -27,11 +34,34 @@ type Todo = {
 	apollo: {
 		todos: getTodos,
 	},
+	watch: {},
 })
 export default class TodoList extends Vue {
 	public newTodo: string = '';
 	public beforeEditCache: string = '';
 	public editedTodo: Todo = null;
+	public visibility: string = 'all';
+
+	public filteredTodos() {
+		return filters[this.visibility](this.todos);
+	}
+
+	public onHashChange() {
+		const visibility = window.location.hash.replace(/#\/?/, '');
+		if (filters[visibility]) {
+			this.visibility = visibility;
+		} else {
+			window.location.hash = '';
+			this.visibility = 'all';
+		}
+	}
+
+	mounted() {
+		this.onHashChange();
+		window.addEventListener('hashchange', this.onHashChange);
+	}
+
+	public remainingTodos = () => filters.active(this.todos).length;
 
 	public async addTodo() {
 		if (this.newTodo.length === 0) {
