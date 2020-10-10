@@ -1,12 +1,12 @@
-<div class="todo-list">
+<div class="todo-app">
 	<input
 		type="text"
-		class="todo-list__input"
+		class="todo-app__input"
 		placeholder="Add a new task"
 		v-model="newTodo"
 		@keyup.enter="addTodo"
 	/>
-	<ul>
+	<transition-group tag="ul" class="todo-list" name="fade">
 		<li v-for="todo in todos" :key="todo.id" class="todo-list__item">
 			<div class="todo-list__item-left">
 				<input
@@ -36,5 +36,10 @@
 				<i class="fas fa-times"></i>
 			</button>
 		</li>
-	</ul>
+	</transition-group>
+	<div class="todo-app__filter-buttons">
+		<button>All</button>
+		<button>Active</button>
+		<button>Completed</button>
+	</div>
 </div>
