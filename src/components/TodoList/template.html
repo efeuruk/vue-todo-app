@@ -10,55 +10,22 @@
 		<p v-if="todos && todos.length === 0" :key="0">
 			Nothing needs to be done :)
 		</p>
-		<!--TodoItemComponent-->
 		<ul v-else :key="1">
-			<li
+			<TodoItem
 				v-for="todo in filteredTodos()"
 				:key="todo.id"
-				class="todo-list__item"
-			>
-				<div class="todo-list__item-left">
-					<input
-						type="checkbox"
-						v-model="todo.isDone"
-						v-on:click="toggleIsDone(todo)"
-					/>
-					<label
-						v-if="todo !== editedTodo"
-						@dblclick="editTodo(todo)"
-						class="todo-list__item-label"
-						:class="{ done : todo.isDone }"
-						>{{todo.description}}</label
-					>
-					<input
-						v-else
-						type="text"
-						class="todo-list__item-edit"
-						v-model="todo.description"
-						@blur="doneEdit(todo)"
-						@keyup.enter="doneEdit(todo)"
-						@keyup.escape="cancelEdit(todo)"
-						v-focus
-					/>
-				</div>
-				<button
-					class="todo-list__remove-item"
-					@click="removeTodo(todo.id)"
-				>
-					<i class="fas fa-times"></i>
-				</button>
-			</li>
+				:todo="todo"
+			/>
 		</ul>
-		<!--TodoItemComponent-->
 		<div
 			v-if="todos && todos.length !== 0"
 			class="todo-app__filter-buttons"
 			:key="2"
 		>
-			<!--Button Components-->
-			<FilterButton label="all" visibility />
-			<FilterButton label="active" visibility />
-			<FilterButton label="done" visibility />
+			<!--Button Components TODO: stable visibility check-->
+			<FilterButton label="all" :visibility="visibility" />
+			<FilterButton label="active" :visibility="visibility" />
+			<FilterButton label="done" :visibility="visibility" />
 			<!--Button Components-->
 			<div class="todo-app__remanings">
 				<span

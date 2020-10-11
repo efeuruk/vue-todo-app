@@ -1,0 +1,29 @@
+<li class="todo-list__item">
+	<div class="todo-list__item-left">
+		<input
+			type="checkbox"
+			v-model="todo.isDone"
+			v-on:click="toggleIsDone(todo)"
+		/>
+		<label
+			v-if="todo !== editedTodo"
+			@dblclick="editTodo(todo)"
+			class="todo-list__item-label"
+			:class="{ done : todo.isDone }"
+			>{{todo.description}}</label
+		>
+		<input
+			v-else
+			type="text"
+			class="todo-list__item-edit"
+			v-model="todo.description"
+			@blur="doneEdit(todo)"
+			@keyup.enter="doneEdit(todo)"
+			@keyup.escape="cancelEdit(todo)"
+			v-focus
+		/>
+	</div>
+	<button class="todo-list__remove-item" @click="removeTodo(todo.id)">
+		<i class="fas fa-times"></i>
+	</button>
+</li>

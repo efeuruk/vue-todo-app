@@ -3,12 +3,10 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import TodoItem from '../TodoItem/TodoItem.vue';
 import FilterButton from '../FilterButton/FilterButton.vue';
 import getTodos from '../../graphql/getTodos.gql';
 import addTodo from '../../graphql/addTodo.gql';
-import deleteTodo from '../../graphql/deleteTodo.gql';
-import updateTodo from '../../graphql/updateTodo.gql';
-import toggleIsDone from '../../graphql/toggleIsDone.gql';
 
 type Todo = {
 	id: number;
@@ -24,24 +22,16 @@ const filters: any = {
 };
 
 @Component({
-	directives: {
-		focus: {
-			inserted(el) {
-				el.focus();
-			},
-		},
-	},
 	apollo: {
 		todos: getTodos,
 	},
 	components: {
+		TodoItem,
 		FilterButton,
 	},
 })
 export default class TodoList extends Vue {
 	public newTodo: string = '';
-	public beforeEditCache: string = '';
-	public editedTodo: Todo = null;
 	public visibility: string = 'all';
 
 	public filteredTodos() {
@@ -79,51 +69,6 @@ export default class TodoList extends Vue {
 
 		this.$apollo.queries.todos.refetch();
 		this.newTodo = '';
-	}
-
-	public async removeTodo(id: number) {
-		await this.$apollo.mutate({
-			mutation: deleteTodo,
-			variables: {
-				id,
-			},
-		});
-
-		this.$apollo.queries.todos.refetch();
-	}
-
-	public editTodo(todo: Todo) {
-		todo && (this.beforeEditCache = todo.description);
-		this.editedTodo = todo;
-	}
-
-	public async doneEdit(todo: Todo) {
-		if (todo?.description.length !== 0 && todo !== null) {
-			this.editedTodo = null;
-			await this.$apollo.mutate({
-				mutation: updateTodo,
-				variables: {
-					id: todo.id,
-					description: todo.description,
-				},
-			});
-		}
-	}
-
-	public cancelEdit(todo: Todo) {
-		this.editedTodo = null;
-		todo && (todo.description = this.beforeEditCache);
-	}
-
-	public async toggleIsDone(todo: Todo) {
-		todo &&
-			(await this.$apollo.mutate({
-				mutation: toggleIsDone,
-				variables: {
-					id: todo.id,
-					isDone: !todo.isDone,
-				},
-			}));
 	}
 }
 </script>
