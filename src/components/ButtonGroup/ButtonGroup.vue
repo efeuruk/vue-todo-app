@@ -5,13 +5,19 @@
 import { Vue, Prop, Component } from 'vue-property-decorator';
 import FilterButton from '../FilterButton/FilterButton.vue';
 
+type Todo = {
+	id: number;
+	description: string;
+	isDone: boolean;
+} | null;
+
 @Component({
 	components: {
 		FilterButton,
 	},
 })
 export default class ButtonGroup extends Vue {
-	@Prop() private todos!: any;
+	@Prop() private todos!: Todo[];
 	@Prop() private visibility!: string;
 	private labels: string[] = ['all', 'active', 'done'];
 }

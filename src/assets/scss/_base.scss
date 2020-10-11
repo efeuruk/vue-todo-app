@@ -16,7 +16,7 @@
 input {
 	width: 100%;
 	&:focus {
-		outline-color: $green;
+		outline-color: $secondary;
 	}
 }
 
@@ -28,6 +28,11 @@ input[type='checkbox'] {
 ul {
 	margin: 0;
 	padding: 0;
+}
+
+code {
+	display: block;
+	margin-bottom: 20px;
 }
 
 @keyframes fade-in {

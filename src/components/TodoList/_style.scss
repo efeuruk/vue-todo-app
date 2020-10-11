@@ -10,7 +10,7 @@
 		span {
 			&:first-child {
 				text-decoration: underline;
-				text-decoration-color: tomato;
+				text-decoration-color: $secondary;
 			}
 			&.count {
 				font-weight: bold;

@@ -1,6 +1,7 @@
 <div class="todo-app__filter-buttons">
 	<FilterButton
-		v-for="label in labels"
+		v-for="(label, index) in labels"
+		:key="index"
 		:label="label"
 		:visibility="visibility"
 	/>

@@ -12,7 +12,7 @@
 		justify-content: space-between;
 		margin-bottom: 12px;
 		margin: 0 auto;
-		border-bottom: 1px solid $green;
+		border-bottom: 1px solid $secondary;
 		animation-name: fade-in;
 		animation-duration: 0.5s;
 		&-left {
@@ -40,7 +40,7 @@
 		cursor: pointer;
 		transition: 0.2s color;
 		&:hover {
-			color: $green;
+			color: $secondary;
 		}
 		i {
 			font-size: 20px;
