@@ -1,0 +1,18 @@
+.todo-app__filter-button {
+	opacity: 0.6;
+	transition: opacity 0.5s;
+	margin-right: 40px;
+	border: 2px solid $green;
+	background: none;
+	padding: 10px 25px;
+	text-decoration: none;
+	color: black;
+	font-size: 16px;
+	&:last-child {
+		margin-right: 0;
+	}
+	&:hover,
+	&.selected {
+		opacity: 1;
+	}
+}

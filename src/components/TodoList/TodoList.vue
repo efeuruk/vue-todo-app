@@ -2,7 +2,8 @@
 <template src="./template.html"></template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import FilterButton from '../FilterButton/FilterButton.vue';
 import getTodos from '../../graphql/getTodos.gql';
 import addTodo from '../../graphql/addTodo.gql';
 import deleteTodo from '../../graphql/deleteTodo.gql';
@@ -33,6 +34,9 @@ const filters: any = {
 	apollo: {
 		todos: getTodos,
 	},
+	components: {
+		FilterButton,
+	},
 })
 export default class TodoList extends Vue {
 	public newTodo: string = '';
@@ -54,7 +58,7 @@ export default class TodoList extends Vue {
 		}
 	}
 
-	mounted() {
+	public mounted() {
 		this.onHashChange();
 		window.addEventListener('hashchange', this.onHashChange);
 	}

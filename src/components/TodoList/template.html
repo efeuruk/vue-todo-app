@@ -10,6 +10,7 @@
 		<p v-if="todos && todos.length === 0" :key="0">
 			Nothing needs to be done :)
 		</p>
+		<!--TodoItemComponent-->
 		<ul v-else :key="1">
 			<li
 				v-for="todo in filteredTodos()"
@@ -48,16 +49,17 @@
 				</button>
 			</li>
 		</ul>
+		<!--TodoItemComponent-->
 		<div
 			v-if="todos && todos.length !== 0"
 			class="todo-app__filter-buttons"
-			:key="3"
+			:key="2"
 		>
-			<a href="#/all" :class="{selected: visibility === 'all'}">All</a>
-			<a href="#/active" :class="{selected: visibility === 'active'}"
-				>Active</a
-			>
-			<a href="#/done" :class="{selected: visibility === 'done'}">Done</a>
+			<!--Button Components-->
+			<FilterButton label="all" visibility />
+			<FilterButton label="active" visibility />
+			<FilterButton label="done" visibility />
+			<!--Button Components-->
 			<div class="todo-app__remanings">
 				<span
 					>Remaining todos:
