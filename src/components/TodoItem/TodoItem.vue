@@ -29,7 +29,7 @@ type Todo = {
 export default class TodoList extends Vue {
 	public beforeEditCache: string = '';
 	public editedTodo: Todo = null;
-	@Prop() private todo!: Todo;
+	@Prop() public todo!: Todo;
 
 	public async removeTodo(id: number) {
 		await this.$apollo.mutate({

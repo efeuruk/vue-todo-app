@@ -6,7 +6,7 @@ import { Vue, Prop, Component } from 'vue-property-decorator';
 
 @Component({})
 export default class FilterButton extends Vue {
-	@Prop() private label!: string;
-	@Prop() private visibility!: string;
+	@Prop() public label!: string;
+	@Prop() public visibility!: string;
 }
 </script>

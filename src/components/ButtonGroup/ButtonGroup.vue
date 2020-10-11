@@ -17,8 +17,8 @@ type Todo = {
 	},
 })
 export default class ButtonGroup extends Vue {
-	@Prop() private todos!: Todo[];
-	@Prop() private visibility!: string;
-	private labels: string[] = ['all', 'active', 'done'];
+	@Prop() public todos!: Todo[];
+	@Prop() public visibility!: string;
+	public labels: string[] = ['all', 'active', 'done'];
 }
 </script>
