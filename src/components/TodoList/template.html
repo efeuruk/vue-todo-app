@@ -10,23 +10,15 @@
 		<p v-if="todos && todos.length === 0" :key="0">
 			Nothing needs to be done :)
 		</p>
-		<ul v-else :key="1">
-			<TodoItem
-				v-for="todo in filteredTodos()"
-				:key="todo.id"
-				:todo="todo"
-			/>
-		</ul>
-		<div
-			v-if="todos && todos.length !== 0"
-			class="todo-app__filter-buttons"
-			:key="2"
-		>
-			<!--Button Components TODO: stable visibility check-->
-			<FilterButton label="all" :visibility="visibility" />
-			<FilterButton label="active" :visibility="visibility" />
-			<FilterButton label="done" :visibility="visibility" />
-			<!--Button Components-->
+		<div v-else :key="1">
+			<ul>
+				<TodoItem
+					v-for="todo in filteredTodos()"
+					:key="todo.id"
+					:todo="todo"
+				/>
+			</ul>
+			<ButtonGroup :todos="todos" :visibility="visibility" />
 			<div class="todo-app__remanings">
 				<span
 					>Remaining todos:

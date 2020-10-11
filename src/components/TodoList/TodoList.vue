@@ -4,7 +4,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import TodoItem from '../TodoItem/TodoItem.vue';
-import FilterButton from '../FilterButton/FilterButton.vue';
+import ButtonGroup from '../ButtonGroup/ButtonGroup.vue';
 import getTodos from '../../graphql/getTodos.gql';
 import addTodo from '../../graphql/addTodo.gql';
 
@@ -27,7 +27,7 @@ const filters: any = {
 	},
 	components: {
 		TodoItem,
-		FilterButton,
+		ButtonGroup,
 	},
 })
 export default class TodoList extends Vue {
@@ -53,7 +53,9 @@ export default class TodoList extends Vue {
 		window.addEventListener('hashchange', this.onHashChange);
 	}
 
-	public remainingTodos = () => filters.active(this.todos).length;
+	public remainingTodos() {
+		return this.todos && filters.active(this.todos).length;
+	}
 
 	public async addTodo() {
 		if (this.newTodo.length === 0) {
